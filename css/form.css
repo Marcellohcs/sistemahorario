@@ -1,0 +1,29 @@
+html,body {
+  font-family: 'NUnito Sans', serif;
+  font-size: 14px;
+  font-weight: 300;
+}
+.hero.is-success {
+background-image: url("../images/logo.jpg");
+background-position: center center;
+background-repeat: no-repeat;
+background-attachment: fixed;
+background-size: cover;
+background-color: #464646;
+}
+
+.hero .nav, .hero.is-success .nav {
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+input {
+  font-weight: 300;
+}
+p {
+  font-weight: 700;
+}
+@media only screen and (max-width: 767px) {
+  body {
+    background-image: url("../images/logo.jpg");
+  }
+}]
