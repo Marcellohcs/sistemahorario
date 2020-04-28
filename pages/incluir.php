@@ -34,74 +34,78 @@
 		}
 	?>
 	 <div class="container">
-        	<table class = "table table-striped table table-bordered table-hover" style="margin-left: 100px;">
-                <thead class="thead-dark">
-                    <tr>
-                        <?php
+	 	<div class=" col-md-12 row">
+	 		<div class="horario">
+	        	<table class = "table table-hover">
+	                <thead>
+	                    <tr>
+	                        <?php
 
-                        	$sql="SELECT * FROM tb_turma order by tur_id desc";
-                        	$query= mysqli_query($conexao,$sql);
-                        	$resultado1 = $query;
-                        		while($resultado = mysqli_fetch_assoc($resultado1)){
-									if ($Forma == 1) {
-										echo "<th>SALA ".utf8_encode($resultado['tur_sala'])."</th>";
-									}else{echo "<th>".utf8_encode($resultado['tur_serie'])."º ".utf8_encode($resultado['tur_nome'])."</th>";}	
-								}
-                        ?>
-                    </tr>
-                </thead>
-                <tbody>
-    				<?php
+	                        	$sql="SELECT * FROM tb_turma order by tur_id desc";
+	                        	$query= mysqli_query($conexao,$sql);
+	                        	$resultado1 = $query;
+	                        		while($resultado = mysqli_fetch_assoc($resultado1)){
+										if ($Forma == 1) {
+											echo "<th>SALA ".$resultado['tur_sala']."</th>";
+										}else{echo "<th>".$resultado['tur_serie']."º ".$resultado['tur_nome']."</th>";}	
+									}
+	                        ?>
+	                    </tr>
+	                </thead>
+	                <tbody>
+	    				<?php
 
-    					$sala = 1;
-    					$aula = 1;
-    					$id = 1;
-						$semestre = 2;
+	    					$sala = 1;
+	    					$aula = 1;
+	    					$id = 1;
+							$semestre = 2;
+							
+
+	    				while ( $sala <= 13) {
+	    					if ($sala == 1) {
+	    						echo "<tr>";
+	    					}
+	    				
+	    					echo "<td><select id=".$id." name='".$aula."' class='form-control ".$sala."'' onclick='myFunction(".$id.",". $aula.",".$sala.")'>";
+	    						echo "<option value='select'>-Professores-</option>";
+
+	    				foreach ($comum as $resucom) {
+	    					if ($resucom['tur_sala'] == $sala) {
+	    						echo "<option>".utf8_encode($resucom['dis_nome'])." - ".utf8_encode($resucom['pro_nome'])."</option>";
+	    					}
+	    				}
+
+	    				foreach ($tecnico as $resutec) {
+	    					if($resutec['tur_sala'] == $sala AND $resutec['tb_curso_cur_id'] == $resutec['cur_id'] AND $resutec['tb_dis_serie'] == $resutec['tur_serie'] AND $resutec['tb_dis_semestre'] == $semestre) {
+								echo "<option style='color:#28a745;' value='".utf8_encode($resutec['dis_tec_nome'])." - ".utf8_encode($resutec['pro_tec_nome'])."'>".utf8_encode($resutec['dis_tec_nome'])." - ".utf8_encode($resutec['pro_tec_nome'])."</option>";
+	    					}
+						}
 						
+						foreach ($horario as $hor) {
+							if ($hor['Sala'.$sala.''] == $resucom['dis_nome']." - ".$resucom['pro_nome'] AND $hor['Aula'] == $aula) {
+								echo " ";
+							}
+						}
+						echo"</select></td>";
 
-    				while ( $sala <= 13) {
-    					if ($sala == 1) {
-    						echo "<tr>";
-    					}
-    				
-    					echo "<td><select id=".$id." name='".$aula."' class='form-control ".$sala."'' onclick='myFunction(".$id.",". $aula.",".$sala.")'>";
+						$id++;
+						$sala++;
 
-    				foreach ($comum as $resucom) {
-    					if ($resucom['tur_sala'] == $sala) {
-    						echo "<option>".utf8_encode($resucom['dis_nome'])." - ".utf8_encode($resucom['pro_nome'])."</option>";
-    					}
-    				}
-
-    				foreach ($tecnico as $resutec) {
-    					if($resutec['tur_sala'] == $sala AND $resutec['tb_curso_cur_id'] == $resutec['cur_id'] AND $resutec['tb_dis_serie'] == $resutec['tur_serie'] AND $resutec['tb_dis_semestre'] == $semestre) {
-							echo "<option style='color:pink;' value='".utf8_encode($resutec['dis_tec_nome'])." - ".utf8_encode($resutec['pro_tec_nome'])."'>".utf8_encode($resutec['dis_tec_nome'])." - ".utf8_encode($resutec['pro_tec_nome'])."</option>";
-    					}
+	    				if($sala == 13){
+								$sala = 1;
+								$aula++;
+							}
+	    				if($da == 2){
+							if($aula == 11) {
+	    						break;
+							}
+						}
+						elseif ($aula == 10) {
+								break;
+							}
 					}
-					
-					foreach ($horario as $hor) {
-						if ($hor['Sala'.$sala.''] == $resucom['dis_nome']." - ".$resucom['pro_nome'] AND $hor['Aula'] == $aula) {
-							echo " ";
-						}
-					}
-					echo"</select></td>";
-
-					$id++;
-					$sala++;
-
-    				if($sala == 13){
-							$sala = 1;
-							$aula++;
-						}
-    				if($da == 2){
-						if($aula == 11) {
-    						break;
-						}
-					}
-					elseif ($aula == 10) {
-							break;
-						}
-				}
-    		?>
-
-    	</tbody>
+	    		?>
+    		</div>
+    	</div>
+    </tbody>
 </table>
